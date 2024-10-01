@@ -12,9 +12,9 @@ const prisma = new PrismaClient();
 app.use(cors());
 app.use(express.json());
 
-app.use("/api/auth", authRoutes); // For authentication-related routes
-app.use("/api/posts", postRoutes); // For blog post-related routes
-app.use("/api/comments", commentRoutes); // For comment-related routes
+app.use("/api/auth", authRoutes);
+app.use("/api/posts", postRoutes);
+app.use("/api/comments", commentRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

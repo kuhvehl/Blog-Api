@@ -20,8 +20,7 @@ const authMiddleware = (req, res, next) => {
     if (err) {
       return res.status(401).json({ error: "Invalid token" });
     }
-
-    req.userId = decoded.id;
+    req.user = { id: decoded.id, isAuthor: decoded.isAuthor };
     return next();
   });
 };

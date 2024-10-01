@@ -5,6 +5,13 @@ const authMiddleware = require("../middleware/auth");
 const router = express.Router();
 const prisma = new PrismaClient();
 
+const checkIsAuthor = (req, res, next) => {
+  if (!req.user || !req.user.isAuthor) {
+    return res.status(403).json({ error: "Access denied. Authors only." });
+  }
+  next();
+};
+
 // Get all published posts
 router.get("/", async (req, res) => {
   try {
@@ -35,7 +42,7 @@ router.get("/:id", async (req, res) => {
 });
 
 // Create a new post
-router.post("/", authMiddleware, async (req, res) => {
+router.post("/", authMiddleware, checkIsAuthor, async (req, res) => {
   try {
     const { title, content, published } = req.body;
     const post = await prisma.post.create({
@@ -43,7 +50,7 @@ router.post("/", authMiddleware, async (req, res) => {
         title,
         content,
         published,
-        authorId: req.userId,
+        authorId: req.user.id,
       },
     });
     res.status(201).json(post);
@@ -53,7 +60,7 @@ router.post("/", authMiddleware, async (req, res) => {
 });
 
 // Update a post
-router.put("/:id", authMiddleware, async (req, res) => {
+router.put("/:id", authMiddleware, checkIsAuthor, async (req, res) => {
   try {
     const { title, content, published } = req.body;
     const post = await prisma.post.update({
@@ -67,7 +74,7 @@ router.put("/:id", authMiddleware, async (req, res) => {
 });
 
 // Delete a post
-router.delete("/:id", authMiddleware, async (req, res) => {
+router.delete("/:id", authMiddleware, checkIsAuthor, async (req, res) => {
   try {
     await prisma.post.delete({
       where: { id: parseInt(req.params.id) },

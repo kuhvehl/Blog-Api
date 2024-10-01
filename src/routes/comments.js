@@ -42,7 +42,7 @@ router.post("/post/:postId", authMiddleware, async (req, res) => {
       data: {
         content,
         postId: parseInt(req.params.postId),
-        userId: req.userId, // Assuming req.userId is set after authentication
+        userId: req.user.id, // Assuming req.user.id is set after authentication
       },
     });
     res.status(201).json(comment);
@@ -61,7 +61,7 @@ router.put("/:id", authMiddleware, async (req, res) => {
       where: { id: parseInt(req.params.id) },
     });
 
-    if (comment.userId !== req.userId) {
+    if (comment.userId !== req.user.id) {
       return res
         .status(403)
         .json({ error: "You are not authorized to update this comment" });
@@ -85,7 +85,7 @@ router.delete("/:id", authMiddleware, async (req, res) => {
       where: { id: parseInt(req.params.id) },
     });
 
-    if (comment.userId !== req.userId) {
+    if (!req.user.isAuthor && comment.userId !== req.user.id) {
       return res
         .status(403)
         .json({ error: "You are not authorized to delete this comment" });

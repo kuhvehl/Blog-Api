@@ -1,21 +1,22 @@
 // src/App.jsx
 import { useState } from "react";
+import { jwtDecode } from "jwt-decode";
 import Header from "./components/Header";
 import Register from "./components/Register";
 import Login from "./components/Login";
 import Home from "./components/Home";
 
 function App() {
-  const [user, setUser] = useState(null); // Track user state
+  const [user, setUser] = useState(null);
 
-  const handleRegister = (userData) => {
+  const handleRegister = (token) => {
+    const userData = jwtDecode(token);
     setUser(userData);
-    // Optionally, save token to localStorage or state
   };
 
-  const handleLogin = (userData) => {
+  const handleLogin = (token) => {
+    const userData = jwtDecode(token);
     setUser(userData);
-    // Optionally, save token to localStorage or state
   };
 
   return (

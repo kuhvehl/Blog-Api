@@ -1,3 +1,4 @@
+// src/components/Login.jsx
 import { useState } from "react";
 
 // eslint-disable-next-line react/prop-types
@@ -20,7 +21,7 @@ const Login = ({ onLogin }) => {
 
     if (response.ok) {
       const data = await response.json();
-      onLogin(data); // Pass token to parent
+      onLogin(data.token); // Pass both user and token to parent
     } else {
       const errorData = await response.json();
       console.error("Error:", errorData);

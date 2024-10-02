@@ -1,6 +1,5 @@
 // eslint-disable-next-line react/prop-types
 const Header = ({ user }) => {
-  console.log(user);
   return (
     <header>
       <h1>Bloggers Only</h1>

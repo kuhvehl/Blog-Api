@@ -47,6 +47,7 @@ router.post("/post/:postId", authMiddleware, async (req, res) => {
     });
     res.status(201).json(comment);
   } catch (error) {
+    console.log(error);
     res.status(500).json({ error: "Error creating comment" });
   }
 });

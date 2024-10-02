@@ -3,7 +3,7 @@ import { useState } from "react";
 import Header from "./components/Header";
 import Register from "./components/Register";
 import Login from "./components/Login";
-import Home from "./components/Home"; // Assuming this is your existing home page component
+import Home from "./components/Home";
 
 function App() {
   const [user, setUser] = useState(null); // Track user state
@@ -26,9 +26,8 @@ function App() {
           <Register onRegister={handleRegister} />
           <Login onLogin={handleLogin} />
         </>
-      ) : (
-        <Home />
-      )}
+      ) : null}
+      <Home />
     </div>
   );
 }

@@ -21,11 +21,10 @@ const Register = ({ onRegister }) => {
 
     if (response.ok) {
       const data = await response.json();
-      onRegister(data.token); // Pass both user and token to parent
+      onRegister(data.token);
     } else {
       const errorData = await response.json();
       console.error("Error:", errorData);
-      // Handle error (show error message)
     }
   };
 

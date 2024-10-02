@@ -1,4 +1,3 @@
-// src/App.jsx
 import { useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import Header from "./components/Header";

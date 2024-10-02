@@ -21,11 +21,10 @@ const Login = ({ onLogin }) => {
 
     if (response.ok) {
       const data = await response.json();
-      onLogin(data.token); // Pass both user and token to parent
+      onLogin(data.token);
     } else {
       const errorData = await response.json();
       console.error("Error:", errorData);
-      // Handle error (show error message)
     }
   };
 

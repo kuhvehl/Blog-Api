@@ -1,10 +1,14 @@
-import React from "react";
-
-const Header = () => {
+// eslint-disable-next-line react/prop-types
+const Header = ({ user }) => {
   return (
     <header>
       <h1>Bloggers Only</h1>
-      {/* You can later add login/logout links or a welcome message here */}
+      {user ? (
+        // eslint-disable-next-line react/prop-types
+        <p>Welcome, {user.username}!</p>
+      ) : (
+        <p>Please log in or register.</p>
+      )}
     </header>
   );
 };

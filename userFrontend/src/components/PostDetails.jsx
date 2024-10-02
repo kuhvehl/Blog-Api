@@ -33,6 +33,7 @@ const PostDetails = ({ user }) => {
 
     if (!newComment) return; // Prevent empty comments
     console.log(newComment);
+    console.log(id);
 
     const token = localStorage.getItem("token");
     console.log("Token being sent:", token); // Log the token

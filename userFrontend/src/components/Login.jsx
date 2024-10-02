@@ -21,6 +21,7 @@ const Login = ({ onLogin }) => {
 
     if (response.ok) {
       const data = await response.json();
+      localStorage.setItem("token", data.token);
       onLogin(data.token);
     } else {
       const errorData = await response.json();

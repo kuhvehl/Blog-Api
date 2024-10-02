@@ -21,6 +21,7 @@ const Register = ({ onRegister }) => {
 
     if (response.ok) {
       const data = await response.json();
+      localStorage.setItem("token", data.token);
       onRegister(data.token);
     } else {
       const errorData = await response.json();

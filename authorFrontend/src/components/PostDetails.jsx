@@ -47,9 +47,13 @@ const PostDetails = ({ user }) => {
     );
 
     if (response.ok) {
-      const addedComment = await response.json();
-      setComments((prev) => [...prev, addedComment]);
       setNewComment("");
+      // Refetch comments after adding a new comment
+      const commentsResponse = await fetch(
+        `https://kuhvehl-blog-api.adaptable.app/api/comments/post/${id}`
+      );
+      const commentsData = await commentsResponse.json();
+      setComments(commentsData);
     } else {
       const errorData = await response.json();
       console.error("Error adding comment:", errorData);
@@ -97,12 +101,22 @@ const PostDetails = ({ user }) => {
     );
 
     if (response.ok) {
-      const updatedComment = await response.json();
-      setComments((prev) =>
-        prev.map((comment) =>
-          comment.id === updatedComment.id ? updatedComment : comment
-        )
+      // Optionally, you can also update the state directly
+      // const updatedComment = await response.json();
+      // setComments((prev) =>
+      //   prev.map((comment) =>
+      //     comment.id === updatedComment.id ? updatedComment : comment
+      //   )
+      // );
+
+      // Refetch comments after updating a comment
+      const commentsResponse = await fetch(
+        `https://kuhvehl-blog-api.adaptable.app/api/comments/post/${id}`
       );
+      const commentsData = await commentsResponse.json();
+      setComments(commentsData);
+
+      // Clear the editing state
       setEditingCommentId(null);
     } else {
       const errorData = await response.json();
@@ -111,7 +125,6 @@ const PostDetails = ({ user }) => {
   };
 
   const handleDeletePost = async () => {
-    console.log(id);
     const response = await fetch(
       `https://kuhvehl-blog-api.adaptable.app/api/posts/${id}`,
       {
@@ -138,8 +151,8 @@ const PostDetails = ({ user }) => {
 
       <h1>{post.title}</h1>
       <p>{post.content}</p>
-      <p>Posted by: {post.authorId.username}</p>
-      <p>Created at: {new Date(post.createdAt).toLocaleDateString()}</p>
+      <p>Posted by: {post.author.username}</p>
+      <p>at: {new Date(post.createdAt).toLocaleDateString()}</p>
 
       {user && user.id === post.authorId && (
         <div>

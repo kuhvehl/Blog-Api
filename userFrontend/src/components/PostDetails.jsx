@@ -96,12 +96,11 @@ const PostDetails = ({ user }) => {
     );
 
     if (response.ok) {
-      const updatedComment = await response.json();
-      setComments((prev) =>
-        prev.map((comment) =>
-          comment.id === updatedComment.id ? updatedComment : comment
-        )
+      const commentsResponse = await fetch(
+        `https://kuhvehl-blog-api.adaptable.app/api/comments/post/${id}`
       );
+      const commentsData = await commentsResponse.json();
+      setComments(commentsData);
       setEditingCommentId(null);
     } else {
       const errorData = await response.json();

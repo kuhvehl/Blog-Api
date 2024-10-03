@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import Header from "./components/Header";
@@ -10,7 +10,23 @@ import CreatePost from "./components/CreatePost";
 function App() {
   const [user, setUser] = useState(null);
 
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      try {
+        const userData = jwtDecode(token);
+        // You can check or set the 'isAuthor' flag based on your application's logic
+        userData.isAuthor = userData.isAuthor || false; // Adjust this logic if needed
+        setUser(userData);
+      } catch (error) {
+        console.error("Failed to decode token:", error);
+        localStorage.removeItem("token"); // If token is invalid, remove it
+      }
+    }
+  }, []);
+
   const handleLogin = (token, isAuthor) => {
+    localStorage.setItem("token", token);
     const userData = jwtDecode(token);
     userData.isAuthor = isAuthor;
     setUser(userData);
@@ -26,8 +42,18 @@ function App() {
             path="/"
             element={user && user.isAuthor ? <Home user={user} /> : null}
           />
-          <Route path="/create" element={<CreatePost user={user} />} />
-          <Route path="/post/:id" element={<PostDetails user={user} />} />
+          <Route
+            path="/create"
+            element={user && user.isAuthor ? <CreatePost user={user} /> : null}
+          />
+          <Route
+            path="/post/:id"
+            element={user && user.isAuthor ? <PostDetails user={user} /> : null}
+          />
+          <Route
+            path="/edit-post/:id"
+            element={user && user.isAuthor ? <CreatePost user={user} /> : null}
+          />
         </Routes>
       </div>
     </Router>

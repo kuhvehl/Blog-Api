@@ -3,6 +3,7 @@ const Header = ({ user, onLogout }) => {
   return (
     <header>
       <h1>Bloggers Only</h1>
+      {/* eslint-disable-next-line react/prop-types */}
       {user && user.isAuthor ? (
         <>
           {/* eslint-disable-next-line react/prop-types */}

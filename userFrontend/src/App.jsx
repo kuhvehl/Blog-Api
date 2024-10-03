@@ -35,10 +35,15 @@ function App() {
     setUser(userData);
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setUser(null);
+  };
+
   return (
     <Router>
       <div>
-        <Header user={user} />
+        <Header user={user} onLogout={handleLogout} />
         {!user ? (
           <>
             <Register onRegister={handleRegister} />

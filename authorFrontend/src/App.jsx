@@ -15,12 +15,11 @@ function App() {
     if (token) {
       try {
         const userData = jwtDecode(token);
-        // You can check or set the 'isAuthor' flag based on your application's logic
-        userData.isAuthor = userData.isAuthor || false; // Adjust this logic if needed
+        userData.isAuthor = userData.isAuthor || false;
         setUser(userData);
       } catch (error) {
         console.error("Failed to decode token:", error);
-        localStorage.removeItem("token"); // If token is invalid, remove it
+        localStorage.removeItem("token");
       }
     }
   }, []);
@@ -32,10 +31,15 @@ function App() {
     setUser(userData);
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setUser(null);
+  };
+
   return (
     <Router>
       <div>
-        <Header user={user} />
+        <Header user={user} onLogout={handleLogout} />
         {!user ? <Login onLogin={handleLogin} /> : null}
         <Routes>
           <Route

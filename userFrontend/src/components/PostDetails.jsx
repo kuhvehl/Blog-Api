@@ -46,12 +46,15 @@ const PostDetails = ({ user }) => {
     );
 
     if (response.ok) {
-      const addedComment = await response.json();
-      setComments((prev) => [...prev, addedComment]);
+      const commentsResponse = await fetch(
+        `https://kuhvehl-blog-api.adaptable.app/api/comments/post/${id}`
+      );
+      const commentsData = await commentsResponse.json();
+      setComments(commentsData);
       setNewComment("");
     } else {
       const errorData = await response.json();
-      console.error("Error adding comment:", errorData);
+      console.error("Error updating comment:", errorData);
     }
   };
 

@@ -5,6 +5,7 @@ import Header from "./components/Header";
 import Login from "./components/Login";
 import Home from "./components/Home";
 import PostDetails from "./components/PostDetails";
+import CreatePost from "./components/CreatePost";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -23,8 +24,9 @@ function App() {
         <Routes>
           <Route
             path="/"
-            element={user && user.isAuthor ? <Home user={user} /> : null} // Pass user to Home
+            element={user && user.isAuthor ? <Home user={user} /> : null}
           />
+          <Route path="/create" element={<CreatePost user={user} />} />
           <Route path="/post/:id" element={<PostDetails user={user} />} />
         </Routes>
       </div>

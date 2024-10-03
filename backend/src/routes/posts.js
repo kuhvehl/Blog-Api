@@ -85,15 +85,24 @@ router.put("/:id", authMiddleware, checkIsAuthor, async (req, res) => {
   }
 });
 
-// Delete a post
+// Delete a post and its associated comments
 router.delete("/:id", authMiddleware, checkIsAuthor, async (req, res) => {
+  const postId = parseInt(req.params.id);
   try {
-    await prisma.post.delete({
-      where: { id: parseInt(req.params.id) },
-    });
-    res.status(204).send();
+    await prisma.$transaction([
+      // Delete comments associated with the post
+      prisma.comment.deleteMany({
+        where: { postId },
+      }),
+      // Delete the post
+      prisma.post.delete({
+        where: { id: postId },
+      }),
+    ]);
+    res.status(204).send(); // No content to send back
   } catch (error) {
-    res.status(500).json({ error: "Error deleting post" });
+    console.error(error); // Log the error for debugging
+    res.status(500).json({ error: "Error deleting post and comments" });
   }
 });
 

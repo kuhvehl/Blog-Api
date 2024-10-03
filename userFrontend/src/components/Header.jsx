@@ -2,7 +2,7 @@
 const Header = ({ user }) => {
   return (
     <header>
-      <h1>Bloggers Only</h1>
+      <h1>Readers Only</h1>
       {user ? (
         // eslint-disable-next-line react/prop-types
         <p>Welcome, {user.username}!</p>

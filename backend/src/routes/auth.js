@@ -32,7 +32,6 @@ router.post("/register", async (req, res) => {
     // Return the token in the response
     res.json({ token });
   } catch (error) {
-    console.log(error); // Log error for debugging
     res.status(500).json({ error: "Error creating user" });
   }
 });
@@ -57,7 +56,6 @@ router.post("/login", async (req, res) => {
     );
     res.json({ token });
   } catch (error) {
-    console.log(error);
     res.status(500).json({ error: "Error logging in" });
   }
 });

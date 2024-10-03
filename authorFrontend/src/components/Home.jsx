@@ -7,11 +7,24 @@ const Home = () => {
 
   useEffect(() => {
     const fetchPosts = async () => {
+      const token = localStorage.getItem("token"); // Retrieve the token from local storage
       const response = await fetch(
-        "https://kuhvehl-blog-api.adaptable.app/api/posts"
+        "https://kuhvehl-blog-api.adaptable.app/api/posts/all",
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`, // Include the token in the Authorization header
+          },
+        }
       );
-      const data = await response.json();
-      setPosts(data);
+
+      if (response.ok) {
+        const data = await response.json();
+        setPosts(data);
+      } else {
+        console.error("Failed to fetch posts:", response.statusText);
+      }
     };
 
     fetchPosts();

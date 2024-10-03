@@ -25,6 +25,18 @@ router.get("/", async (req, res) => {
   }
 });
 
+// Get all posts (published and unpublished)
+router.get("/all", authMiddleware, checkIsAuthor, async (req, res) => {
+  try {
+    const posts = await prisma.post.findMany({
+      include: { author: { select: { username: true } } },
+    });
+    res.json(posts);
+  } catch (error) {
+    res.status(500).json({ error: "Error fetching posts" });
+  }
+});
+
 // Get a single post
 router.get("/:id", async (req, res) => {
   try {
